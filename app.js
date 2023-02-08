@@ -4,19 +4,22 @@ const fs = require('fs');
 app.use(express.json());
 
 const baseRout =  '/api/v1';
+var id = 0;
 
 const usersData = JSON.parse(
     fs.readFileSync(`${__dirname}/data/users.json`)
 );
 
-// const eventsData = JSON.parse(
-//     fs.readFileSync(`./data/events.json`)
-// );
+const eventsData = JSON.parse(
+    fs.readFileSync(`${__dirname}/data/events.json`)
+);
+console.log('eventsData:', eventsData.length);
 
 
+
+//USERS HANDLERS
 const getAllUsers = (req, res) => {
-    res.status(200).json(
-        usersData)
+    res.status(200).json(usersData)
 };
 
 const newUser = (req, res) => {
@@ -25,7 +28,7 @@ const newUser = (req, res) => {
     usersData.push(user);
     fs.writeFile(
         `${__dirname}/data/users.json`,
-        JSON.stringify(usersData),
+        JSON.stringify(usersData, null,'\t'),
         err => {
             res.status(201).json({
                 status: 'sucess',
@@ -39,24 +42,67 @@ const newUser = (req, res) => {
 };
 
 const signIn = (req, res) => {
-    //console.log('chamado');
+
     const email = req.body.email;
     const password = req.body.password;
-    // console.log('email:', email);
-    // console.log('senha:', password);
 
     const loggedIn = usersData.find((user) => {
-            if(user.email === email && user.password === password)
-            return user;
-            console.log(user)
-        })
+        if(user.email === email && user.password === password)
+            return true;
+    });
     
     console.log(loggedIn);
     if(loggedIn){
-        return res.send('Logged User');
+        return res.status(200).send('Logged User');
     }
-    res.send('Incorrect user name or password.')
+    res.status(404).send('Incorrect user name or password.');
 }
+
+
+//EVENTS HANDLERS
+
+const getAllEvents = (req, res) => {
+    res.status(200).json(eventsData)
+};
+
+
+const createEvent =  (req, res) => {
+    //console.log(eventsData.lenght());
+    let newId;
+    if(eventsData.length == 0){
+        newId = 0;
+    }
+    else{
+        newId = eventsData[eventsData.length-1].id + 1;
+    }
+
+    const event = Object.assign( {id: newId}, req.body, {createdAt: Date()});
+    
+    
+    eventsData.push(event);
+    fs.writeFile(
+        `${__dirname}/data/events.json`,
+        JSON.stringify(eventsData, null,'\t'),
+        err => {
+            res.status(201).json({
+                status: 'sucess',
+                data: {
+                    eventData: event
+                }
+            });
+        }
+    );
+    console.log('Event registrated');
+};
+
+
+
+
+
+
+
+
+
 
 //USERS
 app
@@ -65,18 +111,18 @@ app
 
 app
     .route(`${baseRout}/users/signUp`)
-    .post(newUser)
+    .post(newUser);
 
 app
     .route(`${baseRout}/users/signIn`)
-    .post(signIn)
+    .post(signIn);
 
 
 // //EVENTS
-// app
-//     .route(`${baseRout}/events`)
-//     .get(getAllEvents)
-//     .post(createEvent)
+app
+    .route(`${baseRout}/events`)
+    .get(getAllEvents)
+    .post(createEvent)
 
 // app 
 //     .route(`${baseRout}/events/:dayOfWeek`)
