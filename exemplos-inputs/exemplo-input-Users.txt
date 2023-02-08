@@ -1,0 +1,11 @@
+{
+	"firstName": "Fulano",
+	"lastName": "Tal",
+	"birthDate": "2004-05-20",
+	"city": "Campo Grande",
+	"country": "Brasil",
+	"email": "ever@gmail.com",
+	"password": "ever123",
+	"confirmPassword": "exemplo123"
+}
+	

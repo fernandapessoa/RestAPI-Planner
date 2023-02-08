@@ -13,7 +13,6 @@ const usersData = JSON.parse(
 const eventsData = JSON.parse(
     fs.readFileSync(`${__dirname}/data/events.json`)
 );
-console.log('eventsData:', eventsData.length);
 
 
 
@@ -32,9 +31,7 @@ const newUser = (req, res) => {
         err => {
             res.status(201).json({
                 status: 'sucess',
-                data: {
-                    usersData: user
-                }
+                user
             });
         }
     );
@@ -67,17 +64,38 @@ const getAllEvents = (req, res) => {
 
 
 const createEvent =  (req, res) => {
-    //console.log(eventsData.lenght());
     let newId;
-    if(eventsData.length == 0){
-        newId = 0;
-    }
-    else{
-        newId = eventsData[eventsData.length-1].id + 1;
+    if(eventsData.length == 0) newId = 0;
+    else newId = eventsData[eventsData.length-1].id + 1;
+    
+    let date = new Date(req.body.dateTime);
+    let week = date.getDay();
+    
+    switch(week){
+        case 1:
+            week = 'sunday';
+            break;
+        case 2:
+            week = 'monday';
+            break;
+        case 3:
+            week = 'tuesday';
+            break;
+        case 4:
+            week = 'wednesday';
+            break;
+        case 5:
+            week = 'thursday';
+            break;
+        case 6:
+            week = 'friday';
+            break;
+        case 7:
+            week = 'saturday';
+            break;
     }
 
-    const event = Object.assign( {id: newId}, req.body, {createdAt: Date()});
-    
+    const event = Object.assign( {id: newId}, req.body,{week: week}, {dateTime: date}, {createdAt: Date()});
     
     eventsData.push(event);
     fs.writeFile(
@@ -92,17 +110,35 @@ const createEvent =  (req, res) => {
             });
         }
     );
-    console.log('Event registrated');
 };
 
 
+const getEventById =  (req, res) => {
+    const id = req.params.id * 1;
+    const event = eventsData.find((events) => {
+        if(events.id === id)
+            return true;
+    });
+    if(event){
+        return res.status(200).json(event);
+    }
+    else return res.status(404).end("ID not found");
+};
 
+const getEventByDayOfWeek = (req, res) => {
+    const week = req.params.dayOfWeek;
+    let events = []
 
+    eventsData.find((el) => {
+        if(el.week === week)
+            events.push(el);
+    });
 
-
-
-
-
+    if(events){
+        return res.status(200).json(events);
+    }
+    else return res.status(404).end("Event not found");
+}
 
 //USERS
 app
@@ -122,15 +158,15 @@ app
 app
     .route(`${baseRout}/events`)
     .get(getAllEvents)
-    .post(createEvent)
+    .post(createEvent);
 
-// app 
-//     .route(`${baseRout}/events/:dayOfWeek`)
-//     .get(getEventByDay)
+app 
+    .route(`${baseRout}/events/:dayOfWeek`)
+    .get(getEventByDayOfWeek);
 
-// app 
-//     .route(`${baseRout}/events/:id`)
-//     .get(getEventById)
+app 
+    .route(`${baseRout}/events/:id`)
+    .get(getEventById);
 
 
 //SERVER
