@@ -72,25 +72,25 @@ const createEvent =  (req, res) => {
     let week = date.getDay();
     
     switch(week){
-        case 1:
+        case 0:
             week = 'sunday';
             break;
-        case 2:
+        case 1:
             week = 'monday';
             break;
-        case 3:
+        case 2:
             week = 'tuesday';
             break;
-        case 4:
+        case 3:
             week = 'wednesday';
             break;
-        case 5:
+        case 4:
             week = 'thursday';
             break;
-        case 6:
+        case 5:
             week = 'friday';
             break;
-        case 7:
+        case 6:
             week = 'saturday';
             break;
     }
@@ -125,15 +125,17 @@ const getEventById =  (req, res) => {
     else return res.status(404).end("ID not found");
 };
 
+
 const getEventByDayOfWeek = (req, res) => {
     const week = req.params.dayOfWeek;
+    console.log(week);
     let events = []
 
     eventsData.find((el) => {
         if(el.week === week)
             events.push(el);
     });
-
+    console.log(event);
     if(events){
         return res.status(200).json(events);
     }
@@ -167,6 +169,7 @@ app
 app 
     .route(`${baseRout}/events/:id`)
     .get(getEventById);
+
 
 
 //SERVER
