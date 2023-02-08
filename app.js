@@ -49,15 +49,6 @@ const signIn = (req, res) => {
 
 //EVENTS HANDLERS
 
-// const getAllEvents = (req, res) => {
-//     if(req.query.dayOfTheWeek){
-//         getEventByDayOfWeek(req, res);
-//     }
-
-//     else
-//     res.status(200).json(eventsData)
-// };
-
 const createEvent = (req, res) => {
   let newId;
   if (eventsData.length == 0) newId = '0';
@@ -81,7 +72,7 @@ const createEvent = (req, res) => {
     req.body,
     { weekday: weekday },
     { dateTime: date },
-    { createdAt: Date() }
+    { createdAt: Date() } 
   );
 
   eventsData.push(event);
@@ -109,7 +100,7 @@ const getEventById = (req, res) => {
 
 const getEvent = (req, res) => {
   let events = [];
-  if (req.query.dayOfTheWeek) 
+  if (req.query.dayOfTheWeek) //se existe um query param
   {
     const weekday = req.query["dayOfTheWeek"];
     eventsData.find((el) => {
@@ -119,7 +110,7 @@ const getEvent = (req, res) => {
   } 
   else events = eventsData;
  
-  if (events) {
+  if (events.length>0) {
     return res.status(200).json(events);
   }
 
@@ -144,10 +135,31 @@ const deleteEventById = (req, res) => {
     (err) => {
       res.status(201).json({
         status: "sucess",
-        user: null
+        event: null
       });
   })
- 
+}
+
+const deleteEventByTheyOfWeek = (req, res) => {
+    weekday = req.query.dayOfTheWeek;
+    const length = eventsData.length;
+
+    eventsData = eventsData.filter(function (el) {
+        return  (el.weekday !== weekday);
+    });
+    
+    if(!(length>eventsData.length))
+        return res.status(404).end("Event id not found");
+    
+    fs.writeFile(`${__dirname}/data/events.json`,
+    JSON.stringify(eventsData, null ,'\t'),
+    (err) => {
+        res.status(201).json({
+        status: "sucess",
+        event: null
+        });
+    })
+
 }
 
 //USERS
@@ -168,7 +180,7 @@ app
   .route(`${baseRout}/events`)
   .get(getEvent)
   .post(createEvent)
- // .delete(deleteEventByTheyOfWeek)
+  .delete(deleteEventByTheyOfWeek)
 
 // app
 //     .route(`${baseRout}/events/:dayOfWeek`)
