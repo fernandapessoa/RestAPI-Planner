@@ -1,8 +1,34 @@
 const fs = require("fs");
 var usersData = JSON.parse(fs.readFileSync(`${__dirname}/../../seeds/users.json`));
 
+//Validação dos parâmetros do usuário
+const validUser = (req, res) => {
+  let invalidParam = [];
+  if(!req.body.firstName)
+    invalidParam.push('firstName');
+  if(!req.body.lastName)
+    invalidParam.push(' lastName');
+  if(!req.body.birthDate)
+    invalidParam.push(' birthDate');
+  if(!req.body.city)
+    invalidParam.push(' city');
+  if(!req.body.country)
+    invalidParam.push(' country');
+  if(!req.body.email)
+    invalidParam.push(' email');
+  if(!req.body.password)
+    invalidParam.push(' password');
+  if(!req.body.confirmPassword)
+    invalidParam.push(' confirmPassword');
 
+  if(invalidParam.length>0)
+    return res.status(422).json({
+      status: 'failure',
+      message: `Missing fields: ${invalidParam}`
+    })
+}
 
+//Validação do email do usuário (evitar email já existente)
 const validEmail = (req, res) => {
   console.log('entrou');
   const email = req.body.email;
@@ -23,6 +49,7 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.newUser = (req, res) => {
+  validUser(req, res);
   validEmail(req, res);
   const user = Object.assign(req.body);
 
