@@ -5,11 +5,11 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon apps.js"
+    "start": "nodemon ./src/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fernandapessoa/challenge1.git"
+    "url": "git+https://github.com/fernandapessoa/challenge1.git" 
   },
   "author": "Fernanda Pessoa",
   "license": "ISC",
