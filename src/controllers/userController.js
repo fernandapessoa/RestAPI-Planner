@@ -1,12 +1,29 @@
 const fs = require("fs");
 var usersData = JSON.parse(fs.readFileSync(`${__dirname}/../../seeds/users.json`));
 
+
+
+const validEmail = (req, res) => {
+  console.log('entrou');
+  const email = req.body.email;
+
+  usersData.find((user) => {
+    if(user.email === email)
+      return res.status(409).json({
+        status: 'failure',
+        message: `Email ${email} already exists.`
+      });
+  })
+}
+
+
 //USERS HANDLERS
 exports.getAllUsers = (req, res) => {
   res.status(200).json(usersData);
 };
 
 exports.newUser = (req, res) => {
+  validEmail(req, res);
   const user = Object.assign(req.body);
 
   usersData.push(user);
@@ -32,8 +49,14 @@ exports.signIn = (req, res) => {
   });
 
   if (loggedIn) {
-    return res.status(200).send("Logged User");
+    return res.status(200).json({
+      status: 'sucess',
+      message: 'Logged User'
+    });
   }
-  res.status(404).send("Incorrect user name or password.");
+  res.status(404).json({
+    status: 'failure',
+    message: "Incorrect email or password."
+  });
 };
 
