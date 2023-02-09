@@ -57,14 +57,20 @@ exports.getEventById = (req, res) => {
     if (events.id === id) return res.status(200).json(events);
   });
   //Caso nenhum id tenha sido retornado, envia o status 404 com a mensagem
-  return res.status(404).end("ID not found");
+  return res.status(404).json({
+    status: 'failure',
+    message: `ID ${id} not found`
+  });
 };
 
 exports.getEvent = (req, res) => {
   let events = [];
+  let query = false;
+  let weekday;
   //Verifica se foi passado algum query param
   if (req.query.dayOfTheWeek) {
-    const weekday = req.query["dayOfTheWeek"].toLowerCase();
+    query = true;
+    weekday = req.query["dayOfTheWeek"].toLowerCase();
     eventsData.find((el) => {
       if (el.weekday === weekday) events.push(el);
     });
@@ -76,9 +82,16 @@ exports.getEvent = (req, res) => {
   if (events.length > 0) {
     return res.status(200).json(events);
   }
-
+  //Se não retornou nada mas tinha um query param
+  if(query){
+    return res.status(404).json({
+      message: `Event on ${weekday} not found`
+    });
+  }
   //caso nenhum evento tenha sido encontrado
-  return res.status(404).end("Event not found");
+  return res.status(404).json({
+    message: "No event registered"
+  });
 };
 
 exports.deleteEventById = (req, res) => {
@@ -92,7 +105,10 @@ exports.deleteEventById = (req, res) => {
 
   //confere se tem algum evento a menos (o deletado)
   if (!(length > eventsData.length))
-    return res.status(404).end("Event id not found");
+    return res.status(404).json({
+      status: 'failure',
+      message: `Event id ${id} not found`
+  });
 
   //reescreve o arquivo json atualizado
   fs.writeFile(
@@ -101,7 +117,7 @@ exports.deleteEventById = (req, res) => {
     (err) => {
       res.status(201).json({
         status: "sucess",
-        event: null,
+        message: `Event id: ${id} - deleted`,
       });
     }
   );
@@ -116,7 +132,10 @@ exports.deleteEventByDayOfWeek = (req, res) => {
   });
 
   if (!(length > eventsData.length))
-    return res.status(404).end("Event id not found");
+    return res.status(404).json({
+      status: 'failure',
+      message: `Event on ${weekday} not found`
+    });
 
   fs.writeFile(
     `${__dirname}/../../seeds/events.json`,
