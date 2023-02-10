@@ -30,7 +30,6 @@ const validUser = (req, res) => {
 
 //Validação do email do usuário (evitar email já existente)
 const validEmail = (req, res) => {
-  console.log('entrou');
   const email = req.body.email;
 
   usersData.find((user) => {
@@ -40,7 +39,16 @@ const validEmail = (req, res) => {
         message: `Email ${email} already exists.`
       });
   })
-}
+};
+
+//Confirmar se password e confirmPassword são iguais
+const validPassword = (req,res) => {
+  if(!(req.body.password === req.body.confirmPassword))
+    return res.status(401).json({
+      status: 'failure',
+      message: 'The password confirmation does not match'
+    });
+};
 
 
 //USERS HANDLERS
@@ -51,6 +59,8 @@ exports.getAllUsers = (req, res) => {
 exports.newUser = (req, res) => {
   validUser(req, res);
   validEmail(req, res);
+  validPassword(req, res); 
+  
   const user = Object.assign(req.body);
 
   usersData.push(user);
