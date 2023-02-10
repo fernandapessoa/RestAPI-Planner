@@ -1,10 +1,27 @@
 const fs = require("fs");
 var eventsData = JSON.parse(fs.readFileSync(`${__dirname}/../../seeds/events.json`));
 
+const validEvent = (req, res) => {
+  let invalidParam = [];
+  if(!req.body.description)
+    invalidParam.push("description");
+  if(!req.body.dateTime)
+    invalidParam.push("dateTime");
+  
+  if(invalidParam.length>0)
+    return res.status(422).json({
+      status: 'failure',
+      message: `Missing fields: ${invalidParam}`
+  });
+
+}
+
 
 //EVENTS HANDLERS
 
 exports.createEvent = (req, res) => {
+  validEvent(req, res);
+
   let newId;
   //criando um ID para o evento
   if (eventsData.length == 0) newId = "0";
@@ -115,7 +132,7 @@ exports.deleteEventById = (req, res) => {
     `${__dirname}/../data/events.json`,
     JSON.stringify(eventsData, null, "\t"),
     (err) => {
-      res.status(201).json({
+      res.status(202).json({
         status: "sucess",
         message: `Event id: ${id} - deleted`,
       });
@@ -141,7 +158,7 @@ exports.deleteEventByDayOfWeek = (req, res) => {
     `${__dirname}/../../seeds/events.json`,
     JSON.stringify(eventsData, null, "\t"),
     (err) => {
-      res.status(201).json({
+      res.status(202).json({
         status: "sucess",
         event: null,
       });
