@@ -19,9 +19,7 @@ const validEvent = (req, res) => {
 //Validar se os parâmetros para dateTime são válidos
 const ValidDateTime = (req, res) => {
   const date = new Date(req.body.dateTime);
-  console.log(date.getDay());
-  console.log(date.getDate());
-  console.log(date.getFullYear());
+
   if(isNaN(date))
     return res.status(400).json({
       status: 'failure',
@@ -32,6 +30,7 @@ const ValidDateTime = (req, res) => {
 //EVENTS HANDLERS
 
 exports.createEvent = (req, res) => {
+  //validação de parâmetros
   validEvent(req, res);
   ValidDateTime(req, res);
 
@@ -157,16 +156,19 @@ exports.deleteEventByDayOfWeek = (req, res) => {
   weekday = req.query.dayOfTheWeek.toLowerCase();
   const length = eventsData.length;
 
+  //salva apenas os eventos que o dia da semana não corresponde ao que quer deletar
   eventsData = eventsData.filter(function (el) {
     return el.weekday !== weekday;
   });
 
+  //confere se há elemento a menos 
   if (!(length > eventsData.length))
     return res.status(404).json({
       status: 'failure',
       message: `Event on ${weekday} not found`
     });
 
+  //reescreve o arquivo sem o evento com o weekday passado
   fs.writeFile(
     `${__dirname}/../../seeds/events.json`,
     JSON.stringify(eventsData, null, "\t"),

@@ -5,7 +5,7 @@ var usersData = JSON.parse(fs.readFileSync(`${__dirname}/../../seeds/users.json`
 const validUser = (req, res) => {
   let invalidParam = [];
   if(!req.body.firstName)
-    invalidParam.push('firstName');
+    invalidParam.push(' firstName');
   if(!req.body.lastName)
     invalidParam.push(' lastName');
   if(!req.body.birthDate)
@@ -43,7 +43,7 @@ const validEmail = (req, res) => {
 
 //Confirmar se password e confirmPassword são iguais
 const validPassword = (req,res) => {
-  if(!(req.body.password === req.body.confirmPassword))
+  if(req.body.password !== req.body.confirmPassword)
     return res.status(401).json({
       status: 'failure',
       message: 'The password confirmation does not match'
@@ -57,13 +57,16 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.newUser = (req, res) => {
+  //validação dos parâmetros
   validUser(req, res);
   validEmail(req, res);
   validPassword(req, res); 
   
+  //adicionar o objeto em usersData
   const user = Object.assign(req.body);
-
   usersData.push(user);
+
+  //reescrever o arquivo com o novo objeto
   fs.writeFile(
     `${__dirname}/../../seeds/users.json`,
     JSON.stringify(usersData, null, "\t"),
@@ -74,23 +77,26 @@ exports.newUser = (req, res) => {
       });
     }
   );
-  console.log("Registrado");
+
 };
 
 exports.signIn = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
+  //confirmar se existe um usuário com o email e senha passados
   const loggedIn = usersData.find((user) => {
     if (user.email === email && user.password === password) return true;
   });
 
+  //mensagem que deu certo
   if (loggedIn) {
     return res.status(200).json({
       status: 'sucess',
       message: 'Logged User'
     });
   }
+  //mensagem de erro
   res.status(404).json({
     status: 'failure',
     message: "Incorrect email or password."
