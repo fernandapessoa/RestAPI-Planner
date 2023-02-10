@@ -22,7 +22,7 @@ const validUser = (req, res) => {
     invalidParam.push(' confirmPassword');
 
   if(invalidParam.length>0)
-    return res.status(422).json({
+    return res.status(400).json({
       status: 'failure',
       message: `Missing fields: ${invalidParam}`
     })

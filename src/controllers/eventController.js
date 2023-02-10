@@ -9,18 +9,31 @@ const validEvent = (req, res) => {
     invalidParam.push("dateTime");
   
   if(invalidParam.length>0)
-    return res.status(422).json({
+    return res.status(400).json({
       status: 'failure',
       message: `Missing fields: ${invalidParam}`
   });
 
 }
 
+//Validar se os parâmetros para dateTime são válidos
+const ValidDateTime = (req, res) => {
+  const date = new Date(req.body.dateTime);
+  console.log(date.getDay());
+  console.log(date.getDate());
+  console.log(date.getFullYear());
+  if(isNaN(date))
+    return res.status(400).json({
+      status: 'failure',
+      message: `The dataTime format ${date} is not valid. Use format YYYY/MM/DD`
+    });
+}
 
 //EVENTS HANDLERS
 
 exports.createEvent = (req, res) => {
   validEvent(req, res);
+  ValidDateTime(req, res);
 
   let newId;
   //criando um ID para o evento
