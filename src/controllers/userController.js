@@ -2,7 +2,7 @@ const fs = require("fs");
 var usersData = JSON.parse(fs.readFileSync(`${__dirname}/../../seeds/users.json`));
 
 //Validação dos parâmetros do usuário
-const validUser = (req, res) => {
+exports.validUser = (req, res, next) => {
   let invalidParam = [];
   if(!req.body.firstName)
     invalidParam.push(' firstName');
@@ -26,10 +26,12 @@ const validUser = (req, res) => {
       status: 'failure',
       message: `Missing fields: ${invalidParam}`
     })
+
+  next();
 }
 
 //Validação do email do usuário (evitar email já existente)
-const validEmail = (req, res) => {
+exports.validEmail = (req, res, next) => {
   const email = req.body.email;
 
   usersData.find((user) => {
@@ -39,15 +41,17 @@ const validEmail = (req, res) => {
         message: `Email ${email} already exists.`
       });
   })
+  next();
 };
 
 //Confirmar se password e confirmPassword são iguais
-const validPassword = (req,res) => {
+exports.validPassword = (req,res, next) => {
   if(req.body.password !== req.body.confirmPassword)
     return res.status(401).json({
       status: 'failure',
       message: 'The password confirmation does not match'
     });
+    next();
 };
 
 
@@ -57,10 +61,7 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.newUser = (req, res) => {
-  //validação dos parâmetros
-  validUser(req, res);
-  validEmail(req, res);
-  validPassword(req, res); 
+
   
   //adicionar o objeto em usersData
   const user = Object.assign(req.body);

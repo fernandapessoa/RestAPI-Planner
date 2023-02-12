@@ -11,7 +11,7 @@ router
 
 router
     .route("/signUp")
-    .post(userController.newUser);
+    .post(userController.validUser, userController.validEmail, userController.validPassword, userController.newUser);
 
 router
     .route("/signIn") 

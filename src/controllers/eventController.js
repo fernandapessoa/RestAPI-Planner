@@ -1,7 +1,8 @@
 const fs = require("fs");
 var eventsData = JSON.parse(fs.readFileSync(`${__dirname}/../../seeds/events.json`));
 
-const validEvent = (req, res) => {
+//Validar se todos os parâmetros foram passados
+exports.validEvent = (req, res, next) => {
   let invalidParam = [];
   if(!req.body.description)
     invalidParam.push("description");
@@ -13,11 +14,11 @@ const validEvent = (req, res) => {
       status: 'failure',
       message: `Missing fields: ${invalidParam}`
   });
-
+  next();
 }
 
 //Validar se os parâmetros para dateTime são válidos
-const ValidDateTime = (req, res) => {
+exports.ValidDateTime = (req, res, next) => {
   const date = new Date(req.body.dateTime);
 
   if(isNaN(date))
@@ -25,15 +26,11 @@ const ValidDateTime = (req, res) => {
       status: 'failure',
       message: `The dataTime format ${date} is not valid. Use format YYYY/MM/DD`
     });
+  next();
 }
 
 //EVENTS HANDLERS
-
 exports.createEvent = (req, res) => {
-  //validação de parâmetros
-  validEvent(req, res);
-  ValidDateTime(req, res);
-
   let newId;
   //criando um ID para o evento
   if (eventsData.length == 0) newId = "0";

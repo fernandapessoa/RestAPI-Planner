@@ -7,7 +7,7 @@ const eventController = require("./../controllers/eventController");
 router
   .route(`/`)
   .get(eventController.getEvent)
-  .post(eventController.createEvent)
+  .post(eventController.validEvent, eventController.ValidDateTime, eventController.createEvent)
   .delete(eventController.deleteEventByDayOfWeek);
 
 router
