@@ -1,19 +1,20 @@
 const express = require("express");
 const router = express.Router();
 
-const eventController = require("./../controllers/eventController");
+const { getEvent, validEvent, ValidDateTime, createEvent, 
+deleteEventByDayOfWeek, getEventById, deleteEventById} = require("./../controllers/eventController");
 
 // Routers
 router
   .route(`/`)
-  .get(eventController.getEvent)
-  .post(eventController.validEvent, eventController.ValidDateTime, eventController.createEvent)
-  .delete(eventController.deleteEventByDayOfWeek);
+  .get(getEvent)
+  .post(validEvent, ValidDateTime, createEvent)
+  .delete(deleteEventByDayOfWeek);
 
 router
   .route(`/:id`)
-  .get(eventController.getEventById)
-  .delete(eventController.deleteEventById);
+  .get(getEventById)
+  .delete(deleteEventById);
 
 module.exports = router;
  
