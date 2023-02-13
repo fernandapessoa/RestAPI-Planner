@@ -139,8 +139,9 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
 	"password": "exemplo1",
 	"confirmPassword": "exemplo1"
      }
-   }   
- 
+    }   
+   ```  
+   
   
 * **Sign In** (entrar com usuário) - POST 127.0.0.1:3000/api/v1/users/signIn  
     A entrada deve ser um JSON seguinto o padrão:  
