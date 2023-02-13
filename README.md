@@ -21,7 +21,7 @@ No momento não é usado banco de dados. Os usuários e eventos são registrados
 
    * [Tecnologias usadas](#tecnologias-usadas)
    * [Como rodar localmente](#como-rodar-localmente)
-   * [Arquitetura Rest](#arquitetura-rest)
+   * [Arquitetura](#arquitetura)
       * [Users](#users)
       * [Events](#events)
    * [Validações](#validações)
@@ -61,7 +61,7 @@ Referente ao item 5. e 6.: a porta process.env.PORT e o script ```"start": "node
 
 _Atenção_: Os arquivos users.json e events.json, quando vazios, devem conter [] para que os objetos possam ser registrados neles.
 
-## Arquitetura Rest
+## Arquitetura
 Configurações genéricas de local host na porta 3000:  
 Obs: a rout base do projeto foi definida como /api/v1.
 
