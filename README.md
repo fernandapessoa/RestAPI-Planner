@@ -8,10 +8,10 @@
 
 # Rest API em Node.js e Express.js - Planner para registro e consulta de usuários e eventos
 
-Essa aplicação em JavaScript segue a proposta de "Um planner que irá ajudar o cliente a organizar sua semana e suas tarefas e quando elas acontecem". Referente ao "challenge 1 do programa de bolsas Back-end Journey (Node.js) da Compass Uol". Nela foram implementadas as funções de:   
+Essa aplicação em JavaScript segue a proposta de "Um planner que irá ajudar o cliente a organizar sua semanas, tarefas e quando elas acontecem". Referente ao "challenge 1" do programa de bolsas Back-end Journey (Node.js) da Compass Uol. Nela foram implementadas as funções de:   
 
-**Usuários** - listar, sign up e sign in;    
-**Eventos** - criar novo evento, listar todos os eventos, listar ou deletar eventos pelo id ou dia da semana.
+**Usuários** - listar todos os usuários, sign up e sign in;    
+**Eventos** - criar novo evento, listar todos os eventos, listar eventos pelo id ou dia da semana e deletar eventos pelo id ou dia da semana.
 
 No momento não é usado banco de dados. Os usuários e eventos são registrados em arquivos JSON, users.json e events.json, respectivamente.
 
@@ -36,11 +36,11 @@ No momento não é usado banco de dados. Os usuários e eventos são registrados
 
 
 ## Como rodar localmente  
-1. Crie um fork desse projeto e clone ele no seu ambiente de desenvolvimento. (git clone + url do projeto)
+1. Clonar esse repositório ou um fork dele no seu ambiente de desenvolvimento. (git clone + url do projeto)
 2. Entrar no diretório do projeto  
 3. Instalar as dependências pelo terminal com o comando: ```npm i```   
 4. Usar o comando ```npm start``` no terminal, que executará o programa automaticamente até que você cancele com Ctrl + C.  
-OBS: Nodemon não é obrigatório, mas facilita. É possível rodar sem ele com o comando: ```node ./src/server.js```
+OBS: O Nodemon não é obrigatório, mas facilita. É possível rodar sem ele com o comando: ```node ./src/server.js```
 
 _Atenção_: Os arquivos users.json e events.json, quando vazios, devem conter [] para que os objetos possam ser registrados neles.
 
@@ -348,4 +348,5 @@ Para o desenvolvimento dessa API, foram usados os conhecimentos adquiridos no cu
 proporcionados pela Compass Uol no programa de bolsas Back-end Journey (Node.js) AWS Cloud Context na plataforma da Udemy  
 (https://udemy.com/course/nodejs-express-mongodb-bootcamp/learn/lecture/15064884?course_portion_id=282878&learning_path_id=4195930#overview)
 
+  
   
