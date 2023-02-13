@@ -1,72 +1,63 @@
-const fs = require("fs");
-var usersData = JSON.parse(fs.readFileSync(`${__dirname}/../../seeds/users.json`));
+const fs = require('fs');
+var usersData = JSON.parse(
+  fs.readFileSync(`${__dirname}/../../seeds/users.json`)
+);
 
 //Validação dos parâmetros do usuário
 exports.validUser = (req, res, next) => {
   let invalidParam = [];
-  if(!req.body.firstName)
-    invalidParam.push(' firstName');
-  if(!req.body.lastName)
-    invalidParam.push(' lastName');
-  if(!req.body.birthDate)
-    invalidParam.push(' birthDate');
-  if(!req.body.city)
-    invalidParam.push(' city');
-  if(!req.body.country)
-    invalidParam.push(' country');
-  if(!req.body.email)
-    invalidParam.push(' email');
-  if(!req.body.password)
-    invalidParam.push(' password');
-  if(!req.body.confirmPassword)
-    invalidParam.push(' confirmPassword');
+  if (!req.body.firstName) invalidParam.push(' firstName');
+  if (!req.body.lastName) invalidParam.push(' lastName');
+  if (!req.body.birthDate) invalidParam.push(' birthDate');
+  if (!req.body.city) invalidParam.push(' city');
+  if (!req.body.country) invalidParam.push(' country');
+  if (!req.body.email) invalidParam.push(' email');
+  if (!req.body.password) invalidParam.push(' password');
+  if (!req.body.confirmPassword) invalidParam.push(' confirmPassword');
 
-  if(invalidParam.length>0)
+  if (invalidParam.length > 0)
     return res.status(400).json({
       status: 'failure',
-      message: `Missing fields: ${invalidParam}`
-    })
+      message: `Missing fields: ${invalidParam}`,
+    });
 
   next();
-}
+};
 
 //Validação do email do usuário (evitar email já existente)
 exports.validEmail = (req, res, next) => {
   const email = req.body.email;
 
   usersData.find((user) => {
-    if(user.email === email)
+    if (user.email === email)
       return res.status(409).json({
         status: 'failure',
-        message: `Email ${email} already exists.`
+        message: `Email ${email} already exists.`,
       });
-  })
+  });
   next();
 };
 
 //Confirmar se password e confirmPassword são iguais
-exports.validPassword = (req,res, next) => {
-  if(req.body.password !== req.body.confirmPassword)
+exports.validPassword = (req, res, next) => {
+  if (req.body.password !== req.body.confirmPassword)
     return res.status(401).json({
       status: 'failure',
-      message: 'The password confirmation does not match'
+      message: 'The password confirmation does not match',
     });
-    next();
+  next();
 };
-
 
 //USERS HANDLERS
 exports.getAllUsers = (req, res) => {
-  if(usersData.length === 0)
+  if (usersData.length === 0)
     return res.status(404).json({
-      message: "No user registered"
+      message: 'No user registered',
     });
   res.status(200).json(usersData);
 };
 
 exports.newUser = (req, res) => {
-
-  
   //adicionar o objeto em usersData
   const user = Object.assign(req.body);
   usersData.push(user);
@@ -74,15 +65,14 @@ exports.newUser = (req, res) => {
   //reescrever o arquivo com o novo objeto
   fs.writeFile(
     `${__dirname}/../../seeds/users.json`,
-    JSON.stringify(usersData, null, "\t"),
+    JSON.stringify(usersData, null, '\t'),
     (err) => {
       res.status(201).json({
-        status: "sucess",
+        status: 'sucess',
         user,
       });
     }
   );
-
 };
 
 exports.signIn = (req, res) => {
@@ -98,13 +88,12 @@ exports.signIn = (req, res) => {
   if (loggedIn) {
     return res.status(200).json({
       status: 'sucess',
-      message: 'Logged User'
+      message: 'Logged User',
     });
   }
   //mensagem de erro
   res.status(404).json({
     status: 'failure',
-    message: "Incorrect email or password."
+    message: 'Incorrect email or password.',
   });
 };
-

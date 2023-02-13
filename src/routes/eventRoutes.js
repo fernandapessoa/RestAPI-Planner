@@ -1,8 +1,15 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const { getEvent, validEvent, ValidDateTime, createEvent, 
-deleteEventByDayOfWeek, getEventById, deleteEventById} = require("./../controllers/eventController");
+const {
+  getEvent,
+  validEvent,
+  ValidDateTime,
+  createEvent,
+  deleteEventByDayOfWeek,
+  getEventById,
+  deleteEventById,
+} = require('./../controllers/eventController');
 
 // Routers
 router
@@ -11,10 +18,6 @@ router
   .post(validEvent, ValidDateTime, createEvent)
   .delete(deleteEventByDayOfWeek);
 
-router
-  .route(`/:id`)
-  .get(getEventById)
-  .delete(deleteEventById);
+router.route(`/:id`).get(getEventById).delete(deleteEventById);
 
 module.exports = router;
- 

@@ -1,50 +1,50 @@
-const fs = require("fs");
-var eventsData = JSON.parse(fs.readFileSync(`${__dirname}/../../seeds/events.json`));
+const fs = require('fs');
+var eventsData = JSON.parse(
+  fs.readFileSync(`${__dirname}/../../seeds/events.json`)
+);
 
 //Validar se todos os parâmetros foram passados
 exports.validEvent = (req, res, next) => {
   let invalidParam = [];
-  if(!req.body.description)
-    invalidParam.push(" description");
-  if(!req.body.dateTime)
-    invalidParam.push(" dateTime");
-  
-  if(invalidParam.length>0)
+  if (!req.body.description) invalidParam.push(' description');
+  if (!req.body.dateTime) invalidParam.push(' dateTime');
+
+  if (invalidParam.length > 0)
     return res.status(400).json({
       status: 'failure',
-      message: `Missing fields: ${invalidParam}`
-  });
+      message: `Missing fields: ${invalidParam}`,
+    });
   next();
-}
+};
 
 //Validar se os parâmetros para dateTime são válidos
 exports.ValidDateTime = (req, res, next) => {
   const date = new Date(req.body.dateTime);
 
-  if(isNaN(date))
+  if (isNaN(date))
     return res.status(400).json({
       status: 'failure',
-      message: `The dataTime format ${date} is not valid. Use format YYYY/MM/DD`
+      message: `The dataTime format ${date} is not valid. Use format YYYY/MM/DD`,
     });
   next();
-}
+};
 
 //EVENTS HANDLERS
 exports.createEvent = (req, res) => {
   let newId;
   //criando um ID para o evento
-  if (eventsData.length == 0) newId = "0";
+  if (eventsData.length == 0) newId = '0';
   else newId = (eventsData[eventsData.length - 1].id * 1 + 1).toString();
 
   //definindo o dia da semana
   const week = {
-    0: "sunday",
-    1: "monday",
-    2: "tuesday",
-    3: "wednesday",
-    4: "thursday",
-    5: "friday",
-    6: "saturday",
+    0: 'sunday',
+    1: 'monday',
+    2: 'tuesday',
+    3: 'wednesday',
+    4: 'thursday',
+    5: 'friday',
+    6: 'saturday',
   };
 
   let date = new Date(req.body.dateTime);
@@ -63,10 +63,11 @@ exports.createEvent = (req, res) => {
   eventsData.push(event);
   fs.writeFile(
     `${__dirname}/../../seeds/events.json`,
-    JSON.stringify(eventsData, null, "\t"),
+    JSON.stringify(eventsData, null, '\t'),
     (err) => {
-      res.status(201).json({ //mensagem de retorno
-        status: "sucess",
+      res.status(201).json({
+        //mensagem de retorno
+        status: 'sucess',
         data: {
           eventData: event,
         },
@@ -76,7 +77,6 @@ exports.createEvent = (req, res) => {
 };
 
 exports.getEventById = (req, res) => {
-  
   const id = req.params.id;
   //procurar o evento que coincida o ID
   eventsData.find((events) => {
@@ -85,7 +85,7 @@ exports.getEventById = (req, res) => {
   //Caso nenhum id tenha sido retornado, envia o status 404 com a mensagem
   return res.status(404).json({
     status: 'failure',
-    message: `ID ${id} not found`
+    message: `ID ${id} not found`,
   });
 };
 
@@ -96,11 +96,11 @@ exports.getEvent = (req, res) => {
   //Verifica se foi passado algum query param
   if (req.query.dayOfTheWeek) {
     query = true;
-    weekday = req.query["dayOfTheWeek"].toLowerCase();
+    weekday = req.query['dayOfTheWeek'].toLowerCase();
     eventsData.find((el) => {
       if (el.weekday === weekday) events.push(el);
     });
-  } 
+  }
   //se não tiver sido passado nenhum query param, retorna todos os events por ser /api/v1/events apenas
   else events = eventsData;
 
@@ -109,14 +109,14 @@ exports.getEvent = (req, res) => {
     return res.status(200).json(events);
   }
   //Se não retornou nada mas tinha um query param
-  if(query){
+  if (query) {
     return res.status(404).json({
-      message: `Event on ${weekday} not found`
+      message: `Event on ${weekday} not found`,
     });
   }
   //caso nenhum evento tenha sido encontrado
   return res.status(404).json({
-    message: "No event registered"
+    message: 'No event registered',
   });
 };
 
@@ -133,16 +133,16 @@ exports.deleteEventById = (req, res) => {
   if (!(length > eventsData.length))
     return res.status(404).json({
       status: 'failure',
-      message: `Event id ${id} not found`
-  });
+      message: `Event id ${id} not found`,
+    });
 
   //reescreve o arquivo json atualizado
   fs.writeFile(
     `${__dirname}/../data/events.json`,
-    JSON.stringify(eventsData, null, "\t"),
+    JSON.stringify(eventsData, null, '\t'),
     (err) => {
       res.status(202).json({
-        status: "sucess",
+        status: 'sucess',
         message: `Event id: ${id} - deleted`,
       });
     }
@@ -158,23 +158,22 @@ exports.deleteEventByDayOfWeek = (req, res) => {
     return el.weekday !== weekday;
   });
 
-  //confere se há elemento a menos 
+  //confere se há elemento a menos
   if (!(length > eventsData.length))
     return res.status(404).json({
       status: 'failure',
-      message: `Event on ${weekday} not found`
+      message: `Event on ${weekday} not found`,
     });
 
   //reescreve o arquivo sem o evento com o weekday passado
   fs.writeFile(
     `${__dirname}/../../seeds/events.json`,
-    JSON.stringify(eventsData, null, "\t"),
+    JSON.stringify(eventsData, null, '\t'),
     (err) => {
       res.status(202).json({
-        status: "sucess",
+        status: 'sucess',
         event: null,
       });
     }
   );
-}; 
-
+};
