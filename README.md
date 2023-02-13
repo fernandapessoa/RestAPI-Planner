@@ -15,6 +15,20 @@ Essa aplicação em JavaScript segue a proposta de "Um planner que irá ajudar o
 
 No momento não é usado banco de dados. Os usuários e eventos são registrados em arquivos JSON, users.json e events.json, respectivamente.
 
+## Índice
+<!--ts-->
+
+   * [Tecnologias usadas](#tecnologias-usadas)
+   * [Como rodar localmente](#como-rodar-localmente)
+   * [Arquitetura Rest](#arquitetura-rest)
+      * [Users](#users)
+      * [Events](#events)
+   * [Validações](#validações)
+      * [Registro de Usuário](#registro-de-usuário)
+      * [Registro de Evento](#registro-de-evento)
+   * [Créditos](#créditos)
+<!--te-->
+
 ## Tecnologias usadas
 * Node.js 8.19.3
 * Express 4.18.2
@@ -274,11 +288,11 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
      ```  
 
 
-## VALIDAÇÕES
+## Validações
 
-* **Registro de usuário**  
+ ### Registro de usuário 
 
-  **Campos preenchidos**  
+  * **Campos preenchidos**  
   A API confere se todos os parâmetros foram passados. Todos os campos devem ser escritos em minúsculo. Se algum campo estiver ausente ou em branco, é retornada a seguinte mensagem:  
   ```
   {
@@ -288,7 +302,7 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
   ```
   Se algum parâmetro a mais for passado, a API salvará ele junto.
   
-  **Email válido**  
+  * **Email válido**  
   A API confere, ao registrar o usuário, se o email já está em uso. Se sim, é retornada a seguinte mensagem:
   ```
   {
@@ -297,7 +311,7 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
   }
   ```  
   
-  **Confirmação de senha**  
+  * **Confirmação de senha**  
   A API confere se o "password" e "confirmPassword" coincidem. Se não,  é retornada a seguinte mensagem:  
   ```
   {
@@ -306,9 +320,9 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
   }
   ```  
  
-* **Registro de evento**  
+  ### Registro de evento 
 
-    **Campos preenchidos**
+    * **Campos preenchidos**
     A API confere se todos os parâmetros foram passados. Todos os campos devem ser escritos em minúsculo. Se algum campo estiver ausente ou em branco, é retornada a seguinte mensagem:
   ```
   {
@@ -317,7 +331,7 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
   }
   ```  
   
-    **Data do evento**
+   * **Data do evento**
   A API confere se o valor de dateTime é uma data. Se for passada letra letras ela retorna a seguinte mensagem:
   ```
   {
@@ -334,5 +348,4 @@ Para o desenvolvimento dessa API, foram usados os conhecimentos adquiridos no cu
 proporcionados pela Compass Uol no programa de bolsas Back-end Journey (Node.js) AWS Cloud Context na plataforma da Udemy  
 (https://udemy.com/course/nodejs-express-mongodb-bootcamp/learn/lecture/15064884?course_portion_id=282878&learning_path_id=4195930#overview)
 
-  
   
