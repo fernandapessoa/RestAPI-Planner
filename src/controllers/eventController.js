@@ -5,9 +5,9 @@ var eventsData = JSON.parse(fs.readFileSync(`${__dirname}/../../seeds/events.jso
 exports.validEvent = (req, res, next) => {
   let invalidParam = [];
   if(!req.body.description)
-    invalidParam.push("description");
+    invalidParam.push(" description");
   if(!req.body.dateTime)
-    invalidParam.push("dateTime");
+    invalidParam.push(" dateTime");
   
   if(invalidParam.length>0)
     return res.status(400).json({

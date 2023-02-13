@@ -57,6 +57,10 @@ exports.validPassword = (req,res, next) => {
 
 //USERS HANDLERS
 exports.getAllUsers = (req, res) => {
+  if(usersData.length === 0)
+    return res.status(404).json({
+      message: "No user registered"
+    });
   res.status(200).json(usersData);
 };
 
