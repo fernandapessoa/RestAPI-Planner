@@ -1,6 +1,12 @@
 ![image](https://user-images.githubusercontent.com/103967442/218341093-588b71a8-f380-4ce4-92fb-12453e3e384e.png)
+![image](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![image](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+![image](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
+![image](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
+![image](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)
+![image](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 
-# Rest API em Node.js e Express.js - Planner para para registro e consulta de usuários e eventos
+# Rest API em Node.js e Express.js - Planner para registro e consulta de usuários e eventos
 
 Essa aplicação em JavaScript segue a proposta de "Um planner que irá ajudar o cliente a organizar sua semana e suas tarefas e quando elas acontecem". Referente ao "challenge 1 do programa de bolsas Back-end Journey (Node.js) da Compass Uol". Nela foram implementadas as funções de:   
 
@@ -10,32 +16,35 @@ Essa aplicação em JavaScript segue a proposta de "Um planner que irá ajudar o
 No momento não é usado banco de dados. Os usuários e eventos são registrados em arquivos JSON, users.json e events.json, respectivamente.
 
 ## Tecnologias usadas
-* Node 8.19.3
+* Node.js 8.19.3
 * Express 4.18.2
-* Nodemon 
+* Nodemon 2.0.20
+
 
 ## Como rodar localmente  
-1. Crie um fork desse projeto e clone ele no seu ambiente de desenvolvimento.
+1. Crie um fork desse projeto e clone ele no seu ambiente de desenvolvimento. (git clone + url do projeto)
 2. Entrar no diretório do projeto  
-3. Instalar as dependências com: ```npm i```  
-4. Instalar nodemon: ```npm i nodemon```  
-5. Adicionar no package.json em "scripts": ```"start": "nodemon ./src/server.js"```
-![image](https://user-images.githubusercontent.com/103967442/218343281-c8222927-fd60-40d6-9456-cd93ec25e069.png)  
-OBS: No repositório está ```"start": "node ./src/server.js"``` para poder fazer o deploy com railway em vez de rodar localmente.  
-  
-6. Entrar no diretório ./src/server.js e alterar a "port" para a porta que você pretende rodar localmente. Ex: 3000
-![image](https://user-images.githubusercontent.com/103967442/218344118-4c507c15-14dd-4895-bece-566640337599.png)
+3. Instalar as dependências pelo terminal com o comando: ```npm i```   
+4. Usar o comando ```npm start``` no terminal, que executará o programa automaticamente até que você cancele com Ctrl + C.  
+OBS: Nodemon não é obrigatório, mas facilita. É possível rodar sem ele com o comando: ```node ./src/server.js```
 
-7.Usar o comando ```npm start``` no terminal, que executará o programa automaticamente até que você cancele com Ctrl + C.  
-OBS: Nodemon não é obrigatório, mas facilita. É possível rodar com o comando: ```node ./src/server.js```
+_Atenção_: Os arquivos users.json e events.json, quando vazios, devem conter [] para que os objetos possam ser registrados neles.
 
 ## Arquitetura Rest
 Configurações genéricas de local host na porta 3000:  
 Obs: a rout base do projeto foi definida como /api/v1.
+
+Caso tente acessar algum rota que não foi definida, é retornada a mensagem:  
+  ```
+  {
+    "status": "failure",
+    "message": "This route is not defined"
+  }
+  ```
   
 ### USERS 
 
-* **Listagem de usuários** - GET 127.0.0.1:3000/api/v1/users
+* **Listagem de usuários** - GET 127.0.0.1:3000/api/v1/users  
   Em caso de sucesso retorna todos os usuários registrados no formato JSON. Veja o exemplo a seguir:  
   ```
   [
@@ -69,7 +78,7 @@ Obs: a rout base do projeto foi definida como /api/v1.
   ```
  
   
-* **Sign Up** (registrar usuário) - GET 127.0.0.1:3000/api/v1/users  
+* **Sign Up** (registrar usuário) - POST 127.0.0.1:3000/api/v1/users  
   A entrada deve ser um JSON seguinto o padrão:  
   ```
   {
@@ -84,7 +93,7 @@ Obs: a rout base do projeto foi definida como /api/v1.
    }    
    ```  
    Todos os campos devem seguir a Camel Notation: se a palavra não é composta, tudo em minúsculo. Caso contratrário, apenas a primeira letra da palavra composta fica em maiúsculo. Como em "birthDate" e "confirmPassword".  
-   A API não realiza o registro de uma de um usuário por vez.
+   A API não realiza o registro de mais de um usuário por vez.
   
    Em caso de sucesso, retorna o status "sucess" e o as informações do usuário no formato JSON. Veja o exemplo a seguir:  
    ```
@@ -103,7 +112,7 @@ Obs: a rout base do projeto foi definida como /api/v1.
    }   
  
   
-* **Sign In** (entrar com usuário) - 127.0.0.1:3000/api/v1/users/signIn  
+* **Sign In** (entrar com usuário) - POST 127.0.0.1:3000/api/v1/users/signIn  
     A entrada deve ser um JSON seguinto o padrão:  
     ```
     {
@@ -113,10 +122,12 @@ Obs: a rout base do projeto foi definida como /api/v1.
     ```  
     
     Em caso de sucesso retorna o status "sucess" e o a mensagem de "Looged User" no formato JSON. Veja o exemplo a seguir:  
-    ```{
+    ```
+    {
     "status": "sucess",
     "message": "Logged User"
-    }```  
+    }
+    ```  
     
     Em caso de falha, retorna a mensagem:
     ```
@@ -164,9 +175,9 @@ Obs: a rout base do projeto foi definida como /api/v1.
     ```  
    
    OBS: o formato deve ser YYYY/MM/DD usando necessariamente / , senão a função de getDate() pode interpretar errado. Por exemplo, usando - no lugar de / , a função
-   interpreta como MM-DD-YYYY  
+   interpreta como MM-DD-YYYY.  
   
-   A API se encarrega de criar um ID, ver o dia da semana e registrar o horário e data que o registro do evento foi criado.    
+   A API se encarrega de criar um ID, ver o dia da semana e registrar o horário e data que o evento foi criado.    
   	
    Em caso de sucesso, retorna o status "sucess" e o evento registrado no formato JSON. Veja o exemplo a seguir:  
   
@@ -188,7 +199,7 @@ Obs: a rout base do projeto foi definida como /api/v1.
     ```   
  
      
-* **Listar eventos pelo ID** - GET 127.0.0.1:3000/api/v1/events/:id  
+* **Listar eventos pelo ID** - GET 127.0.0.1:3000/api/v1/events/:id   
   No lugar de :id se coloca o id que quer buscar, e se tudo der certo é retornado o evento em formato JSON. Exemplo:
      ```
      {
@@ -208,9 +219,9 @@ Obs: a rout base do projeto foi definida como /api/v1.
   ```
   
 * **Listar eventos pelo dia da semana** - GET 127.0.0.1:3000/api/v1/events/dayOfTheWeek=dia  
-  Ex: 127.0.0.1:8000/api/v1/events?dayOfTheWeek=monday)
+  Ex: 127.0.0.1:8000/api/v1/events?dayOfTheWeek=monday)  
   No lugar de dia se coloca o dia da semana que quer buscar,
-  e se tudo der certo é retornado o evento em formato JSON. Exemplo:
+  e se tudo der certo são retornados todos os eventos que serão nesse dia da semana em formato JSON. Exemplo:
      ```
      {
       "id": "1",
@@ -243,11 +254,11 @@ Obs: a rout base do projeto foi definida como /api/v1.
    }
    ```
   
-* **Deletar eventos pelo dia da semana** - DELETE 127.0.0.1:3000/api/v1/events?dayOfTheWeek=dia
+* **Deletar eventos pelo dia da semana** - DELETE 127.0.0.1:3000/api/v1/events?dayOfTheWeek=dia  
   Ex: 127.0.0.1:8000/api/v1/events?dayOfTheWeek=monday  
   
-  No lugar de dia se coloca o dia da semana que quer, o nome do dia da semana deve ser em inglês. A API reconhece independente se a letra for maiúscula ou minúscula. 
-  e se tudo der certo é retornada a mensagem de sucess em formato JSON. Exemplo:
+  No lugar de dia se coloca o dia da semana que quer deletar o evento, o nome do dia da semana deve ser em inglês. A API reconhece independentemente se a letra for maiúscula ou minúscula.   
+  se tudo der certo é retornada a mensagem de sucess em formato JSON. Exemplo:
      ```
      {
        "status": "sucess",
@@ -260,9 +271,7 @@ Obs: a rout base do projeto foi definida como /api/v1.
       "status": "failure",
       "message": "Event on monday not found"
      }
-     ```
-   
-     
+     ```  
 
 
 ## VALIDAÇÕES
@@ -270,13 +279,14 @@ Obs: a rout base do projeto foi definida como /api/v1.
 * **Registro de usuário**  
 
   **Campos preenchidos**  
-  A API confere se todos os parâmetros foram passados. Todos os campos devem ser escritos em minúsculo. Se algum campo estiver ausente ou em branco, é retornada a seguinte mensagem:
+  A API confere se todos os parâmetros foram passados. Todos os campos devem ser escritos em minúsculo. Se algum campo estiver ausente ou em branco, é retornada a seguinte mensagem:  
   ```
   {
     "status": "failure",
     "message": "Missing fields:  lastName, birthDate, city"
   }
   ```
+  Se algum parâmetro a mais for passado, a API salvará ele junto.
   
   **Email válido**  
   A API confere, ao registrar o usuário, se o email já está em uso. Se sim, é retornada a seguinte mensagem:
@@ -297,8 +307,9 @@ Obs: a rout base do projeto foi definida como /api/v1.
   ```  
  
 * **Registro de evento**  
-  **Campos preenchidos**
-  A API confere se todos os parâmetros foram passados. Todos os campos devem ser escritos em minúsculo. Se algum campo estiver ausente ou em branco, é retornada a seguinte mensagem:
+
+    **Campos preenchidos**
+    A API confere se todos os parâmetros foram passados. Todos os campos devem ser escritos em minúsculo. Se algum campo estiver ausente ou em branco, é retornada a seguinte mensagem:
   ```
   {
     "status": "failure",
@@ -306,7 +317,7 @@ Obs: a rout base do projeto foi definida como /api/v1.
   }
   ```  
   
-  **Data do evento**
+    **Data do evento**
   A API confere se o valor de dateTime é uma data. Se for passada letra letras ela retorna a seguinte mensagem:
   ```
   {
@@ -314,8 +325,14 @@ Obs: a rout base do projeto foi definida como /api/v1.
     "message": "The dataTime format Invalid Date is not valid. Use format YYYY/MM/DD"
   }
   ```
-  Entretanto, datas imprecisas como "2023", "2023/01" não indicam erro e a função utilizada getDate() considera o promeiro dia do ano ou mês. Por isso, deve ser utilizado o formato YYYY/MM/DD.
+  Entretanto, datas imprecisas como "2023", "2023/01" não indicam erro e a função utilizada getDate() considera o primeiro dia do ano ou mês. Por isso, deve ser utilizado o formato YYYY/MM/DD.  
   
   
+
+## Créditos  
+Para o desenvolvimento dessa API, foram usados os conhecimentos adquiridos no curso Node.js, Express, MongoDB & More: The Complete Bootcamp 2023 
+proporcionados pela Compass Uol no programa de bolsas Back-end Journey (Node.js) AWS Cloud Context na plataforma da Udemy  
+(https://udemy.com/course/nodejs-express-mongodb-bootcamp/learn/lecture/15064884?course_portion_id=282878&learning_path_id=4195930#overview)
+
   
   
