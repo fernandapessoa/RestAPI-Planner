@@ -1,10 +1,11 @@
 ![image](https://user-images.githubusercontent.com/103967442/218341093-588b71a8-f380-4ce4-92fb-12453e3e384e.png)
 ![image](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![image](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
-![image](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
 ![image](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-4B3263?style=for-the-badge&logo=eslint&logoColor=white)
 ![image](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)
 ![image](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
+![image](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
 
 # Rest API em Node.js e Express.js - Planner para registro e consulta de usuários e eventos
 
@@ -34,6 +35,7 @@ No momento não é usado banco de dados. Os usuários e eventos são registrados
 * Node.js 8.19.3
 * Express 4.18.2
 * Nodemon 2.0.20
+* Eslint 8.34.0
 
 
 ## Como rodar localmente  
@@ -295,7 +297,7 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
  ### Registro de usuário 
 
   * **Campos preenchidos**  
-  A API confere se todos os parâmetros foram passados. Todos os campos devem ser escritos em minúsculo. Se algum campo estiver ausente ou em branco, é retornada a seguinte mensagem:  
+    A API confere se todos os parâmetros foram passados. Todos os campos devem ser escritos em minúsculo, e, se forem palavras compostas, apenas a primeira letra da palavra composta em maiúsculo - como mostrado anteriormente. Se algum campo estiver ausente ou em branco, é retornada a seguinte mensagem: 
   ```
   {
     "status": "failure",
@@ -325,7 +327,7 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
   ### Registro de evento 
 
     * **Campos preenchidos**
-    A API confere se todos os parâmetros foram passados. Todos os campos devem ser escritos em minúsculo. Se algum campo estiver ausente ou em branco, é retornada a seguinte mensagem:
+    A API confere se todos os parâmetros foram passados. Todos os campos devem ser escritos em minúsculo, e, se forem palavras compostas, apenas a primeira letra da palavra composta em maiúsculo - como mostrado anteriormente. Se algum campo estiver ausente ou em branco, é retornada a seguinte mensagem:
   ```
   {
     "status": "failure",
@@ -356,7 +358,7 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
     
    ![image](https://user-images.githubusercontent.com/103967442/218458727-4f66e5eb-ad53-4f88-aa6e-a23df0d1c4da.png)  
    * Coloque seu conteúdo em formato json no espaço entre "response" e a url;
-   * Envie com o botão "Send" a direita da URL;  
+   * Envie com o botão "Send" à direita da URL;  
    * A resposta do servidor aparece logo abaixo.   
      
    ![image](https://user-images.githubusercontent.com/103967442/218460375-c2bfd51f-3226-4f28-8fee-4590edd59b7f.png)  
@@ -364,7 +366,7 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
 
 ## Créditos  
 Para o desenvolvimento dessa API, foram usados os conhecimentos adquiridos no curso Node.js, Express, MongoDB & More: The Complete Bootcamp 2023 
-proporcionados pela Compass Uol no programa de bolsas Back-end Journey (Node.js) AWS Cloud Context na plataforma da Udemy  
+proporcionados pela Compass Uol no programa de bolsas Back-end Journey (Node.js) AWS Cloud Context na plataforma da Udemy.  
 (https://udemy.com/course/nodejs-express-mongodb-bootcamp/learn/lecture/15064884?course_portion_id=282878&learning_path_id=4195930#overview)
 
   
