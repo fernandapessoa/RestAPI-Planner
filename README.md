@@ -382,7 +382,9 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
 
 ## Como testar usando Postman com deploy
    Considerando o deploy feito pelo Railway, a forma de execução segue a mesma explicada em [Como testar usando Postman com servidor local](#como-testar-usando-postman-com-servidor-local). O que muda são as urls - substituindo o localHost pelo link gerado pelo Railway.  
-     
+   
+   #### Link da api feito o deploy: https://challenge1-production-9cbc.up.railway.app  
+   
    Exemplo:  
    em vez de POST 127.0.0.1:3000/api/v1/users/signUp,  
    POST https://challenge1-production-9cbc.up.railway.app/api/v1/users/signUp  
@@ -397,5 +399,4 @@ Para o desenvolvimento dessa API, foram usados os conhecimentos adquiridos no cu
 proporcionados pela Compass Uol no programa de bolsas Back-end Journey (Node.js) AWS Cloud Context na plataforma da Udemy.  
 (https://udemy.com/course/nodejs-express-mongodb-bootcamp/learn/lecture/15064884?course_portion_id=282878&learning_path_id=4195930#overview)
 
-  
   
