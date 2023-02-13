@@ -27,7 +27,8 @@ No momento não é usado banco de dados. Os usuários e eventos são registrados
    * [Validações](#validações)
       * [Registro de Usuário](#registro-de-usuário)
       * [Registro de Evento](#registro-de-evento)
-   * [Como testar usando Postman](#como-testar-usando-postman)
+   * [Como testar usando Postman com servidor local](#como-testar-usando-postman-com-servidor-local)
+   * [Como testar usando Postman com deploy](#como-testar-usando-postman-com-deploy)
    * [Créditos](#créditos)
 <!--te-->
 
@@ -42,8 +43,20 @@ No momento não é usado banco de dados. Os usuários e eventos são registrados
 1. Clonar esse repositório ou um fork dele no seu ambiente de desenvolvimento. (git clone + url do projeto)
 2. Entrar no diretório do projeto  
 3. Instalar as dependências pelo terminal com o comando: ```npm i```   
-4. Usar o comando ```npm start``` no terminal, que executará o programa automaticamente até que você cancele com Ctrl + C.  
+4. Entrar em package.json e alterar em "scripts" de ```"start": "node ./src/server.js"``` para ```"start": "nodemon ./src/server.js"```  
+
+   ![image](https://user-images.githubusercontent.com/103967442/218485548-4c2c3837-50df-481c-bc23-a0ec25c3811a.png) ![image](https://user-images.githubusercontent.com/103967442/218489364-2b3bb7ae-932d-458a-a9ca-d430b50d662e.png)
+
+
+5. Entrar em ./src/server.js e alterar a port de ```process.env.PORT``` para a porta que você deseja rodar localmente. (ex: 3000)  
+
+   ![image](https://user-images.githubusercontent.com/103967442/218485447-753d7de6-5395-444b-88db-778dce94bfde.png) ![image](https://user-images.githubusercontent.com/103967442/218489448-789111cf-1d70-415a-b467-8dc44996d2cb.png)
+
+
+6. Usar o comando ```npm start``` no terminal, que executará o programa automaticamente até que você cancele com Ctrl + C.  
 OBS: O Nodemon não é obrigatório, mas facilita. É possível rodar sem ele com o comando: ```node ./src/server.js```
+
+Referente ao item 5. e 6.: a porta process.env.PORT e o script ```"start": "node ./src/server.js"``` estão dessa forma para realizar o deploy pelo Railway.
 
 _Atenção_: Os arquivos users.json e events.json, quando vazios, devem conter [] para que os objetos possam ser registrados neles.
 
@@ -345,7 +358,7 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
   ```
   Entretanto, datas imprecisas como "2023", "2023/01" não indicam erro e a função utilizada getDate() considera o primeiro dia do ano ou mês. Por isso, deve ser utilizado o formato YYYY/MM/DD.  
   
-## Como testar usando Postman  
+## Como testar usando Postman com servidor local
    Considerando que os passos de [Como rodar localmente](#como-rodar-localmente) foram concluídos e o servidor esteja no ar, seu terminal deve aparecer:  
      
    ![image](https://user-images.githubusercontent.com/103967442/218460123-3727d3a4-bffa-4676-a598-942195c41956.png)  
@@ -362,7 +375,21 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
    * A resposta do servidor aparece logo abaixo.   
      
    ![image](https://user-images.githubusercontent.com/103967442/218460375-c2bfd51f-3226-4f28-8fee-4590edd59b7f.png)  
+      
+   Lembrando que os parâmetros devem estar de acordo com os exemplos passados em [Arquitetura Rest](#arquitetura-rest).
+   
 
+## Como testar usando Postman com deploy
+   Considerando o deploy feito pelo Railway, a forma de execução segue a mesma explicada em [Como testar usando Postman com servidor local](#como-testar-usando-postman-com-servidor-local). O que muda são as urls - ubstituindo o localHost pelo link gerado pelo Railway.  
+     
+   Exemplo:  
+   em vez de POST 127.0.0.1:3000/api/v1/users/signUp,  
+   POST https://challenge1-production-9cbc.up.railway.app/api/v1/users/signUp  
+   
+   ![image](https://user-images.githubusercontent.com/103967442/218486562-e157803c-82bc-48dc-9a84-869a1303bda8.png)
+
+   Lembrando que para realizar o deploy, em ./scr/server.js a porta deve ser process.env.PORT e em package.json o "script" deve ser ```"start": "node ./src/server.js"```  
+     
 
 ## Créditos  
 Para o desenvolvimento dessa API, foram usados os conhecimentos adquiridos no curso Node.js, Express, MongoDB & More: The Complete Bootcamp 2023 
