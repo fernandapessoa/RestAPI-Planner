@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fernandapessoa/challenge1.git" 
+    "url": "git+https://github.com/fernandapessoa/challenge1.git"
   },
   "author": "Fernanda Pessoa",
   "license": "ISC",
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/fernandapessoa/challenge1#readme",
   "dependencies": {
     "eslint": "^8.33.0",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20"
   }
 }
