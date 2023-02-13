@@ -26,6 +26,7 @@ No momento não é usado banco de dados. Os usuários e eventos são registrados
    * [Validações](#validações)
       * [Registro de Usuário](#registro-de-usuário)
       * [Registro de Evento](#registro-de-evento)
+   * [Como testar usando Postman](#como-testar-usando-postman)
    * [Créditos](#créditos)
 <!--te-->
 
@@ -289,7 +290,8 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
 
 
 ## Validações
-
+ A API realiza algumas validações, são elas:  
+ 
  ### Registro de usuário 
 
   * **Campos preenchidos**  
@@ -341,7 +343,24 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
   ```
   Entretanto, datas imprecisas como "2023", "2023/01" não indicam erro e a função utilizada getDate() considera o primeiro dia do ano ou mês. Por isso, deve ser utilizado o formato YYYY/MM/DD.  
   
-  
+## Como testar usando Postman  
+   Considerando que os passos de [Como rodar localmente](#como-rodar-localmente) foram concluídos e o servidor esteja no ar, seu terminal deve aparecer:  
+     
+   ![image](https://user-images.githubusercontent.com/103967442/218460123-3727d3a4-bffa-4676-a598-942195c41956.png)  
+   no Postman:  
+   * Selecione o tipo de consulta (GET, POST ou DELETE);  
+   * Escreva o local host + a rota que deseja acessar:  
+     
+   ![image](https://user-images.githubusercontent.com/103967442/218457770-bef268eb-8a67-46ab-802f-9667af65aebc.png)  
+   * Se for um evento que precise receber uma entrada JSON (POST), selecione a opção "Body" abaixo da url, em seguida "raw", e "JSON";  
+    
+   ![image](https://user-images.githubusercontent.com/103967442/218458727-4f66e5eb-ad53-4f88-aa6e-a23df0d1c4da.png)  
+   * Coloque seu conteúdo em formato json no espaço entre "response" e a url;
+   * Envie com o botão "Send" a direita da URL;  
+   * A resposta do servidor aparece logo abaixo.   
+     
+   ![image](https://user-images.githubusercontent.com/103967442/218460375-c2bfd51f-3226-4f28-8fee-4590edd59b7f.png)  
+
 
 ## Créditos  
 Para o desenvolvimento dessa API, foram usados os conhecimentos adquiridos no curso Node.js, Express, MongoDB & More: The Complete Bootcamp 2023 
