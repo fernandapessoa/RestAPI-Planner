@@ -37,6 +37,7 @@ No momento não é usado banco de dados. Os usuários e eventos são registrados
 * Express 4.18.2
 * Nodemon 2.0.20
 * Eslint 8.34.0
+* Postman
 
 
 ## Como rodar localmente  
@@ -139,9 +140,8 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
 	"password": "exemplo1",
 	"confirmPassword": "exemplo1"
      }
-    }   
-   ```  
-   
+   }   
+ 
   
 * **Sign In** (entrar com usuário) - POST 127.0.0.1:3000/api/v1/users/signIn  
     A entrada deve ser um JSON seguinto o padrão:  
@@ -381,7 +381,7 @@ Caso tente acessar algum rota que não foi definida, é retornada a mensagem:
    
 
 ## Como testar usando Postman com deploy
-   Considerando o deploy feito pelo Railway, a forma de execução segue a mesma explicada em [Como testar usando Postman com servidor local](#como-testar-usando-postman-com-servidor-local). O que muda são as urls - ubstituindo o localHost pelo link gerado pelo Railway.  
+   Considerando o deploy feito pelo Railway, a forma de execução segue a mesma explicada em [Como testar usando Postman com servidor local](#como-testar-usando-postman-com-servidor-local). O que muda são as urls - substituindo o localHost pelo link gerado pelo Railway.  
      
    Exemplo:  
    em vez de POST 127.0.0.1:3000/api/v1/users/signUp,  
