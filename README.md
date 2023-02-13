@@ -21,7 +21,7 @@ No momento não é usado banco de dados. Os usuários e eventos são registrados
 4. Instalar nodemon: ```npm i nodemon```  
 5. Adicionar no package.json em "scripts": ```"start": "nodemon ./src/server.js"```
 ![image](https://user-images.githubusercontent.com/103967442/218343281-c8222927-fd60-40d6-9456-cd93ec25e069.png)  
-OBS: No repositório está ```"start": "node ./src/server.js"``` para fazer poder fazer o deploy com railway em vez de rodar localmente.  
+OBS: No repositório está ```"start": "node ./src/server.js"``` para poder fazer o deploy com railway em vez de rodar localmente.  
   
 6. Entrar no diretório ./src/server.js e alterar a "port" para a porta que você pretende rodar localmente. Ex: 3000
 ![image](https://user-images.githubusercontent.com/103967442/218344118-4c507c15-14dd-4895-bece-566640337599.png)
