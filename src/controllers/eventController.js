@@ -19,15 +19,30 @@ exports.validEvent = (req, res, next) => {
 
 //Validar se os parâmetros para dateTime são válidos
 exports.ValidDateTime = (req, res, next) => {
-  const date = new Date(req.body.dateTime);
+  const { dateTime } = req.body;
+  // Regex para YYYY/MM/DD
+  const regex = /^\d{4}\/\d{2}\/\d{2}$/;
 
-  if (isNaN(date))
+  if (!regex.test(dateTime)) {
     return res.status(400).json({
       status: 'failure',
-      message: `The dataTime format ${date} is not valid. Use format YYYY/MM/DD`,
+      message: `The dateTime format "${dateTime}" is not valid. Use format YYYY/MM/DD`,
     });
+  }
+
+  // Confirma que a data existe (evita datas como 2025/13/33)
+  const [year, month, day] = dateTime.split('/').map(Number);
+  const date = new Date(dateTime);
+  if (date.getFullYear() !== year || (date.getMonth() + 1) !== month || date.getDate() !== day) {
+    return res.status(400).json({
+      status: 'failure',
+      message: `The dateTime value "${dateTime}" is not a valid date.`,
+    });
+  }
+
   next();
 };
+
 
 //EVENTS HANDLERS
 exports.createEvent = (req, res) => {
