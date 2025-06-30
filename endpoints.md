@@ -294,7 +294,53 @@ Este arquivo detalha todos os endpoints da API de usuários e eventos, incluindo
 
 ---
 
-## Observações
+### ✏️ Atualizar evento por ID
 
-- Os nomes dos campos seguem a convenção camelCase.
-- O formato de data aceito é `YYYY/MM/DD`.
+- **PUT** `/api/v1/events/:id`
+- **Body**:
+
+```json
+{
+  "description": "Novo nome do evento",
+  "dateTime": "2025/06/30"
+}
+```
+
+- **Respostas**:
+
+```json
+{
+  "status": "sucess",
+  "message": "Event id: 1 updated",
+  "data": {
+    "event": {
+      "id": "1",
+      "description": "Novo nome do evento",
+      "dateTime": "2025-06-30T00:00:00.000Z",
+      "weekday": "monday",
+      "createdAt": "..."
+    }
+  }
+}
+```
+
+```json
+{
+  "status": "failure",
+  "message": "ID 1 not found"
+}
+```
+
+```json
+{
+  "status": "failure",
+  "message": "Missing fields: description, dateTime"
+}
+```
+
+```json
+{
+  "status": "failure",
+  "message": "The dateTime format \"30-06-2025\" is not valid. Use format YYYY/MM/DD"
+}
+```
