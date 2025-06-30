@@ -34,7 +34,11 @@ exports.ValidDateTime = (req, res, next) => {
   // Confirma que a data existe (evita datas como 2025/13/33)
   const [year, month, day] = dateTime.split('/').map(Number);
   const date = new Date(dateTime);
-  if (date.getFullYear() !== year || (date.getMonth() + 1) !== month || date.getDate() !== day) {
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() + 1 !== month ||
+    date.getDate() !== day
+  ) {
     return res.status(400).json({
       status: 'failure',
       message: `The dateTime value "${dateTime}" is not a valid date.`,
@@ -43,7 +47,6 @@ exports.ValidDateTime = (req, res, next) => {
 
   next();
 };
-
 
 //EVENTS HANDLERS
 exports.createEvent = (req, res) => {
@@ -176,6 +179,90 @@ exports.deleteEventByDayOfWeek = (req, res) => {
       res.status(202).json({
         status: 'sucess',
         event: null,
+      });
+    }
+  );
+};
+
+exports.updateEventById = (req, res) => {
+  const id = req.params.id;
+  const { description, dateTime } = req.body;
+
+  // Buscar o evento pelo id
+  const eventIndex = eventsData.findIndex((event) => event.id === id);
+
+  if (eventIndex === -1) {
+    return res.status(404).json({
+      status: 'failure',
+      message: `Event id ${id} not found`,
+    });
+  }
+
+  // Validar campos obrigatórios
+  if (!description || !dateTime) {
+    return res.status(400).json({
+      status: 'failure',
+      message: 'Missing fields: description and dateTime are required',
+    });
+  }
+
+  // Validar formato e validade da data (reaproveitando regex e validação do controller)
+  const regex = /^\d{4}\/\d{2}\/\d{2}$/;
+  if (!regex.test(dateTime)) {
+    return res.status(400).json({
+      status: 'failure',
+      message: `The dateTime format "${dateTime}" is not valid. Use format YYYY/MM/DD`,
+    });
+  }
+  const [year, month, day] = dateTime.split('/').map(Number);
+  const date = new Date(dateTime);
+  if (
+    date.getFullYear() !== year ||
+    date.getMonth() + 1 !== month ||
+    date.getDate() !== day
+  ) {
+    return res.status(400).json({
+      status: 'failure',
+      message: `The dateTime value "${dateTime}" is not a valid date.`,
+    });
+  }
+
+  // Atualizar os campos do evento
+  const week = {
+    0: 'sunday',
+    1: 'monday',
+    2: 'tuesday',
+    3: 'wednesday',
+    4: 'thursday',
+    5: 'friday',
+    6: 'saturday',
+  };
+
+  const weekday = week[date.getDay()];
+
+  eventsData[eventIndex] = {
+    ...eventsData[eventIndex],
+    description,
+    dateTime: date,
+    weekday,
+  };
+
+  // Salvar no arquivo JSON
+  fs.writeFile(
+    eventsJsonPath,
+    JSON.stringify(eventsData, null, '\t'),
+    (err) => {
+      if (err) {
+        return res.status(500).json({
+          status: 'failure',
+          message: 'Error saving updated event',
+        });
+      }
+      res.status(200).json({
+        status: 'success',
+        data: {
+          eventData: eventsData[eventIndex],
+        },
       });
     }
   );
