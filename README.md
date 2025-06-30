@@ -9,12 +9,15 @@
 
 # Rest API em Node.js e Express.js - Planner para registro e consulta de usuários e eventos
 
-Essa aplicação em JavaScript segue a proposta de "Um planner que irá ajudar o cliente a organizar sua semanas, tarefas e quando elas acontecem". Referente ao "challenge 1" do programa de bolsas Back-end Journey (Node.js) da Compass Uol. Nela foram implementadas as funções de:
+
+> Projeto desenvolvido para estudos de API RESTful com Express e Node.js
+
+Essa aplicação em JavaScript segue a proposta de "Um planner que irá ajudar o cliente a organizar sua semanas, tarefas e quando elas acontecem". Nela foram implementadas as funções de: 
 
 **Usuários** - listar todos os usuários, sign up e sign in;  
 **Eventos** - criar novo evento, listar todos os eventos, listar eventos pelo id ou dia da semana e deletar eventos pelo id ou dia da semana.
 
-No momento não é usado banco de dados. Os usuários e eventos são registrados em arquivos JSON, users.json e events.json, respectivamente.
+No momento não é usado banco de dados. Os usuários e eventos são registrados em arquivos JSON, users.json e events.json, respectivamente.   
 
 > 📄 A documentação detalhada dos endpoints (requisições, parâmetros, exemplos de request/response e erros) está disponível no arquivo [`endpoints.md`](./endpoints.md)
 
@@ -88,6 +91,33 @@ Exemplo:
 ```
 POST https://challenge1-production-9cbc.up.railway.app/api/v1/users
 ```
+
+Lembrando que para realizar o deploy, em ./scr/server.js a porta deve ser process.env.PORT e em package.json o "script" deve ser ```"start": "node ./src/server.js"```  
+
+## 🧪 Testes Automatizados das Rotas de Eventos
+
+Este projeto inclui um script para **testes automatizados das rotas de eventos** da API, garantindo que funcionalidades essenciais continuem funcionando corretamente após alterações no código.
+
+### Como executar os testes
+
+1. Certifique-se de que a API está rodando localmente (`npm start` ou `node src/server.js`).
+2. No terminal, execute: ```node testEvents.js```
+
+
+### O que é testado
+
+O script `testEvents.js` realiza os seguintes testes automáticos:
+- Criação de evento com dados válidos (`POST /api/v1/events`)
+- Tentativa de criação de evento com data inválida (esperando erro)
+- Consulta de eventos (`GET /api/v1/events`)
+- Consulta de evento específico por ID (`GET /api/v1/events/:id`)
+- Exclusão de evento por ID (`DELETE /api/v1/events/:id`)
+
+Ao final, o resultado de cada teste é exibido diretamente no terminal, indicando sucesso ou detalhes do erro retornado pela API.
+
+### Objetivo
+
+Esses testes garantem que, a cada alteração ou correção realizada, as principais rotas de eventos continuam funcionando conforme o esperado, reduzindo o risco de bugs passarem despercebidos para produção.
 
 ---
 
