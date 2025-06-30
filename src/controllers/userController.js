@@ -58,11 +58,31 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.newUser = (req, res) => {
-  //adicionar o objeto em usersData
-  const user = Object.assign(req.body);
+  // Só aceita os campos previstos!
+  const {
+    firstName,
+    lastName,
+    birthDate,
+    city,
+    country,
+    email,
+    password,
+    confirmPassword
+  } = req.body;
+
+  const user = {
+    firstName,
+    lastName,
+    birthDate,
+    city,
+    country,
+    email,
+    password,
+    confirmPassword
+  };
+
   usersData.push(user);
 
-  //reescrever o arquivo com o novo objeto
   fs.writeFile(
     `${__dirname}/../../seeds/users.json`,
     JSON.stringify(usersData, null, '\t'),
@@ -74,6 +94,7 @@ exports.newUser = (req, res) => {
     }
   );
 };
+
 
 exports.signIn = (req, res) => {
   const email = req.body.email;
