@@ -20,7 +20,12 @@ exports.validEvent = (req, res, next) => {
 
 //Validar se os parâmetros para dateTime são válidos
 exports.ValidDateTime = (req, res, next) => {
-  const date = new Date(req.body.dateTime);
+  /* Uma desestruturação para pegar a data seria mais eficiente
+     pois deixaria o código mais limpo e legível. Porém foi
+     mantida a forma como a desenvolvedora original havia
+     feito na primeira versão.*/
+  const { dateTime } = req.body;
+  const date = new Date(dateTime);
 
   if (isNaN(date))
     return res.status(400).json({
